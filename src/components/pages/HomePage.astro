@@ -1,0 +1,170 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VideoFlipperIsland from '../VideoFlipperIsland';
+import {
+  getTranslation,
+  getCanonicalUrl,
+  type Locale,
+} from '../../i18n/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslation(locale);
+const canonicalUrl = getCanonicalUrl(locale, '');
+
+const webAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'FlipVideo',
+  url: canonicalUrl,
+  description: t.home.metaDescription,
+  applicationCategory: 'MultimediaApplication',
+  operatingSystem: 'Any (Web Browser)',
+  browserRequirements:
+    'Requires a modern HTML5 web browser with JavaScript, Canvas 2D, and MediaRecorder/WebCodecs enabled.',
+  inLanguage: locale,
+  isAccessibleForFree: true,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  featureList: [
+    'Flip video horizontally (mirror left-to-right)',
+    'Flip video vertically (upside-down reflection)',
+    'Rotate video 90 degrees and 180 degrees',
+    'Fix backwards selfie and front-camera recordings',
+    '100% client-side browser processing with zero server uploads',
+    'Original audio track preservation with zero watermarks',
+    'Supports MP4, MOV, and WebM video files',
+    'Offline Progressive Web App (PWA) support',
+  ],
+  author: {
+    '@type': 'Person',
+    name: 'Kishara Dilshan',
+    url: 'https://flipvideo.github.io/hire-me/',
+  },
+};
+
+const faqPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: t.home.faqSection.items.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+---
+
+<BaseLayout
+  locale={locale}
+  currentRoute=""
+  title={t.home.title}
+  description={t.home.metaDescription}
+  schemas={[webAppSchema, faqPageSchema]}
+>
+  <main class="flex-1">
+    <!-- 1st Section: Full-Viewport Hero Workspace (Main Function ONLY; other sections visible only on scroll) -->
+    <section
+      aria-labelledby="hero-heading"
+      class="mx-auto flex min-h-[calc(100vh-72px)] max-w-4xl flex-col justify-center px-4 py-8 sm:px-6 lg:px-8"
+    >
+      <div class="mx-auto max-w-2xl text-center">
+        <h1
+          id="hero-heading"
+          class="text-2xl font-extrabold tracking-tight text-text-primary sm:text-4xl lg:text-[2.65rem] lg:leading-[1.15]"
+        >
+          {t.home.h1}
+        </h1>
+        <p class="mt-3 text-sm font-medium leading-relaxed text-text-secondary sm:text-base">
+          {t.home.heroSubtitle}
+        </p>
+      </div>
+
+      <div class="mt-6 sm:mt-8">
+        <VideoFlipperIsland client:load labels={t.home.flipper} />
+      </div>
+    </section>
+
+    <!-- Below-the-Fold Features Section (Visible only after scrolling down) -->
+    <section
+      aria-labelledby="features-heading"
+      class="border-t border-border-token bg-card/60 py-20"
+    >
+      <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2
+            id="features-heading"
+            class="text-2xl font-extrabold tracking-tight text-text-primary sm:text-3xl"
+          >
+            {t.home.featuresSection.heading}
+          </h2>
+          <p class="mt-3 text-base text-text-secondary">
+            {t.home.featuresSection.subheading}
+          </p>
+        </div>
+
+        <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {
+            t.home.featuresSection.items.map((feature, index) => (
+              <div class="rounded-2xl border border-border-token bg-card p-6 shadow-sm">
+                <div
+                  class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-brand-rose text-base font-extrabold text-[#242236]"
+                  aria-hidden="true"
+                >
+                  0{index + 1}
+                </div>
+                <h3 class="text-lg font-bold text-text-primary">
+                  {feature.title}
+                </h3>
+                <p class="mt-2 text-sm leading-relaxed text-text-secondary">
+                  {feature.description}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- 4-Question Helpful FAQ Section (Mirrors FAQPage JSON-LD Schema) -->
+    <section
+      aria-labelledby="faq-heading"
+      class="mx-auto max-w-4xl px-4 py-20 sm:px-6 lg:px-8"
+    >
+      <div class="text-center">
+        <h2
+          id="faq-heading"
+          class="text-2xl font-extrabold tracking-tight text-text-primary sm:text-3xl"
+        >
+          {t.home.faqSection.heading}
+        </h2>
+        <p class="mt-3 text-base text-text-secondary">
+          {t.home.faqSection.subheading}
+        </p>
+      </div>
+
+      <div class="mt-10 space-y-4">
+        {
+          t.home.faqSection.items.map((faq) => (
+            <article class="rounded-2xl border border-border-token bg-card p-6 shadow-sm">
+              <h3 class="text-lg font-bold text-text-primary">
+                {faq.question}
+              </h3>
+              <p class="mt-2.5 text-sm leading-relaxed text-text-secondary sm:text-base">
+                {faq.answer}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>

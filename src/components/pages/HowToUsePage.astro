@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../Breadcrumbs.astro';
+import {
+  getTranslation,
+  getLocalizedPath,
+  getCanonicalUrl,
+  type Locale,
+} from '../../i18n/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslation(locale);
+const canonicalUrl = getCanonicalUrl(locale, 'how-to-use/');
+
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: t.howToUse.h1,
+  description: t.howToUse.metaDescription,
+  url: canonicalUrl,
+  inLanguage: locale,
+  totalTime: 'PT1M',
+  tool: [
+    {
+      '@type': 'HowToTool',
+      name: 'FlipVideo Browser Workspace',
+    },
+  ],
+  step: t.howToUse.steps.map((step, index) => ({
+    '@type': 'HowToStep',
+    position: index + 1,
+    name: step.title,
+    text: step.description,
+  })),
+};
+---
+
+<BaseLayout
+  locale={locale}
+  currentRoute="how-to-use/"
+  title={t.howToUse.title}
+  description={t.howToUse.metaDescription}
+  schemas={[howToSchema]}
+>
+  <Breadcrumbs
+    locale={locale}
+    currentRoute="how-to-use/"
+    currentLabel={t.nav.howToUse}
+  />
+
+  <main class="flex-1">
+    <!-- Hero Header -->
+    <section class="mx-auto max-w-5xl px-4 pb-12 pt-6 sm:px-6 lg:px-8">
+      <div class="rounded-3xl border border-border-token bg-card p-7 shadow-sm sm:p-10">
+        <h1 class="text-3xl font-extrabold tracking-tight text-text-primary sm:text-4xl">
+          {t.howToUse.h1}
+        </h1>
+        <p class="mt-4 max-w-3xl text-base leading-relaxed text-text-secondary sm:text-lg">
+          {t.howToUse.subtitle}
+        </p>
+      </div>
+    </section>
+
+    <!-- 3 Step-by-Step Guide -->
+    <section
+      aria-labelledby="steps-heading"
+      class="mx-auto max-w-5xl px-4 pb-14 sm:px-6 lg:px-8"
+    >
+      <h2
+        id="steps-heading"
+        class="text-2xl font-extrabold tracking-tight text-text-primary"
+      >
+        {t.howToUse.stepsHeading}
+      </h2>
+
+      <div class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
+        {
+          t.howToUse.steps.map((step, idx) => (
+            <article class="flex flex-col rounded-2xl border border-border-token bg-card p-6 shadow-sm">
+              <div
+                class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-rose text-lg font-extrabold text-[#242236]"
+                aria-hidden="true"
+              >
+                {idx + 1}
+              </div>
+              <h3 class="text-lg font-bold text-text-primary">{step.title}</h3>
+              <p class="mt-2.5 text-sm leading-relaxed text-text-secondary">
+                {step.description}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Detailed Use Cases -->
+    <section
+      aria-labelledby="use-cases-heading"
+      class="border-t border-border-token bg-card/50 py-14"
+    >
+      <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <h2
+          id="use-cases-heading"
+          class="text-2xl font-extrabold tracking-tight text-text-primary"
+        >
+          {t.howToUse.useCasesHeading}
+        </h2>
+        <p class="mt-2 text-base text-text-secondary">
+          {t.howToUse.useCasesSubheading}
+        </p>
+
+        <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+          {
+            t.howToUse.useCases.map((useCase) => (
+              <article class="rounded-2xl border border-border-token bg-card p-6 shadow-sm">
+                <span class="inline-block rounded-lg bg-brand-rose px-3 py-1 text-xs font-extrabold text-[#242236]">
+                  {useCase.badge}
+                </span>
+                <h3 class="mt-3 text-lg font-bold text-text-primary">
+                  {useCase.title}
+                </h3>
+                <p class="mt-2 text-sm leading-relaxed text-text-secondary">
+                  {useCase.description}
+                </p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Supported Formats & CTA -->
+    <section
+      aria-labelledby="formats-heading"
+      class="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8"
+    >
+      <div class="flex flex-col items-start justify-between gap-6 rounded-3xl border border-border-token bg-card p-7 shadow-sm sm:p-10 md:flex-row md:items-center">
+        <div class="max-w-2xl">
+          <h2
+            id="formats-heading"
+            class="text-xl font-extrabold text-text-primary sm:text-2xl"
+          >
+            {t.howToUse.formatsHeading}
+          </h2>
+          <p class="mt-2.5 text-sm leading-relaxed text-text-secondary sm:text-base">
+            {t.howToUse.formatsText}
+          </p>
+        </div>
+
+        <a
+          href={getLocalizedPath(locale, '')}
+          class="inline-flex min-h-[54px] shrink-0 items-center gap-2.5 rounded-2xl bg-brand-rose px-7 py-3.5 text-base font-extrabold text-[#242236] shadow-md transition hover:bg-brand-blush"
+        >
+          <span>{t.howToUse.ctaButton}</span>
+          <svg
+            class="h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
+        </a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

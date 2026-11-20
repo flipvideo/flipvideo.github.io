@@ -1,0 +1,32 @@
+{
+  "name": "FlipVideo",
+  "short_name": "FlipVideo",
+  "description": "Flip or mirror videos horizontally and vertically right in your browser. 100% free, private MP4, MOV, and WebM video flipper with zero uploads or watermarks.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#FFC7C7",
+  "background_color": "#F6F6F6",
+  "categories": ["photo", "video", "utilities", "productivity"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

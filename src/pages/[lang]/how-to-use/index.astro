@@ -1,0 +1,14 @@
+---
+import HowToUsePage from '../../../components/pages/HowToUsePage.astro';
+import { SUPPORTED_LANGUAGES, type Locale } from '../../../i18n/translations';
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGUAGES.filter((l) => l.code !== 'en').map((l) => ({
+    params: { lang: l.code },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Locale };
+---
+
+<HowToUsePage locale={lang} />

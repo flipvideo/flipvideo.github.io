@@ -1,0 +1,110 @@
+---
+import {
+  SUPPORTED_LANGUAGES,
+  getTranslation,
+  getLocalizedPath,
+  type Locale,
+} from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+  currentRoute: '' | 'how-to-use/' | 'hire-me/';
+}
+
+const { locale, currentRoute } = Astro.props;
+const t = getTranslation(locale);
+---
+
+<footer class="mt-auto border-t border-border-token bg-card/80 py-10 text-text-secondary">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+      <!-- Brand + Tagline -->
+      <div class="max-w-md space-y-2">
+        <a
+          href={getLocalizedPath(locale, '')}
+          class="inline-flex items-center gap-2.5 text-lg font-extrabold text-text-primary"
+        >
+          <span
+            class="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-rose text-[#242236]"
+            aria-hidden="true"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3" />
+              <path d="M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3" />
+              <line x1="12" y1="2" x2="12" y2="22" stroke-dasharray="3 3" />
+            </svg>
+          </span>
+          <span>FlipVideo</span>
+        </a>
+        <p class="text-sm leading-relaxed text-text-secondary">
+          {t.footer.tagline}
+        </p>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="flex flex-wrap items-center gap-5 text-sm font-semibold">
+        <a
+          href={getLocalizedPath(locale, '')}
+          class="text-text-secondary transition hover:text-text-primary"
+        >
+          {t.nav.home}
+        </a>
+        <a
+          href={getLocalizedPath(locale, 'how-to-use/')}
+          class="text-text-secondary transition hover:text-text-primary"
+        >
+          {t.nav.howToUse}
+        </a>
+        <a
+          href={getLocalizedPath(locale, 'hire-me/')}
+          class="text-text-secondary transition hover:text-text-primary"
+        >
+          {t.nav.hireMe}
+        </a>
+        <a
+          href="https://kisharadilshan.gumroad.com/coffee"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-text-secondary transition hover:text-text-primary"
+        >
+          {t.nav.supportDeveloper}
+        </a>
+        <a
+          href="https://github.com/flipvideo/flipvideo.github.io"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="View source code on GitHub"
+          class="text-text-secondary transition hover:text-text-primary"
+        >
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- Language Links Bar for Crawlers & Users -->
+    <div class="mt-8 flex flex-wrap items-center gap-3 border-t border-border-token pt-6 text-xs">
+      {
+        SUPPORTED_LANGUAGES.map((lang) => (
+          <a
+            href={getLocalizedPath(lang.code, currentRoute)}
+            hreflang={lang.code}
+            class:list={[
+              'rounded-md px-2.5 py-1 font-medium transition',
+              lang.code === locale
+                ? 'bg-brand-rose text-[#242236] font-bold'
+                : 'text-text-secondary hover:bg-subtle hover:text-text-primary',
+            ]}
+          >
+            {lang.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- Bottom Copyright -->
+    <div class="mt-6 flex flex-col justify-between gap-2 text-xs text-text-secondary sm:flex-row">
+      <p>{t.footer.copyright}</p>
+      <p>{t.footer.privacyNote}</p>
+    </div>
+  </div>
+</footer>

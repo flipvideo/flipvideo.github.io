@@ -1,0 +1,238 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../Breadcrumbs.astro';
+import {
+  getTranslation,
+  getCanonicalUrl,
+  type Locale,
+} from '../../i18n/translations';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslation(locale);
+const canonicalUrl = getCanonicalUrl(locale, 'hire-me/');
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Kishara Dilshan',
+  jobTitle: 'Full-Stack Web & Client-Side WebAssembly Developer',
+  url: canonicalUrl,
+  email: 'mailto:kisharadilshan007@gmail.com',
+  knowsAbout: [
+    'Astro',
+    'React',
+    'Next.js',
+    'TypeScript',
+    'WebAssembly',
+    'WebCodecs',
+    'HTML5 Canvas & WebGL',
+    'Technical SEO',
+  ],
+  sameAs: [
+    'https://github.com/flipvideo/flipvideo.github.io',
+    'https://kisharadilshan.gumroad.com/coffee',
+  ],
+};
+---
+
+<BaseLayout
+  locale={locale}
+  currentRoute="hire-me/"
+  title={t.hireMe.title}
+  description={t.hireMe.metaDescription}
+  schemas={[personSchema]}
+>
+  <Breadcrumbs
+    locale={locale}
+    currentRoute="hire-me/"
+    currentLabel={t.nav.hireMe}
+  />
+
+  <main class="flex-1">
+    <!-- Hero Bio Card -->
+    <section class="mx-auto max-w-5xl px-4 pb-12 pt-6 sm:px-6 lg:px-8">
+      <div class="rounded-3xl border border-border-token bg-card p-7 shadow-sm sm:p-10">
+        <span class="inline-flex items-center gap-2 rounded-full bg-brand-rose px-4 py-1.5 text-xs font-extrabold text-[#242236]">
+          <span class="h-2 w-2 rounded-full bg-[#242236]" aria-hidden="true"></span>
+          <span>{t.hireMe.roleBadge}</span>
+        </span>
+
+        <h1 class="mt-4 text-3xl font-extrabold tracking-tight text-text-primary sm:text-4xl lg:text-5xl">
+          {t.hireMe.h1}
+        </h1>
+
+        <p class="mt-5 max-w-3xl text-base leading-relaxed text-text-secondary sm:text-lg">
+          {t.hireMe.introParagraph}
+        </p>
+        <p class="mt-4 max-w-3xl text-base leading-relaxed text-text-secondary">
+          {t.hireMe.philosophyParagraph}
+        </p>
+
+        <!-- Direct Email + Interactive Copy Email Box -->
+        <div class="mt-8 rounded-2xl border border-border-token bg-page p-6">
+          <h2 class="text-lg font-extrabold text-text-primary">
+            {t.hireMe.contactHeading}
+          </h2>
+          <p class="mt-1 text-sm text-text-secondary">
+            {t.hireMe.contactSubheading}
+          </p>
+
+          <div class="mt-5 flex flex-wrap items-center gap-3">
+            <!-- Displayed Email Address Pill -->
+            <div class="flex min-h-[52px] items-center gap-3 rounded-2xl border border-border-token bg-card px-5 py-3 font-mono text-sm font-bold text-text-primary sm:text-base">
+              <svg
+                class="h-5 w-5 shrink-0 text-brand-slate"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+              <span id="developer-email-text">kisharadilshan007@gmail.com</span>
+            </div>
+
+            <!-- Interactive One-Click Copy Email Button -->
+            <button
+              type="button"
+              id="copy-email-btn"
+              data-email="kisharadilshan007@gmail.com"
+              data-default-label={t.hireMe.copyEmailButton}
+              data-copied-label={t.hireMe.emailCopiedButton}
+              aria-live="polite"
+              class="inline-flex min-h-[52px] items-center gap-2.5 rounded-2xl bg-brand-rose px-6 py-3 text-sm font-extrabold text-[#242236] shadow-md transition hover:bg-brand-blush"
+            >
+              <svg
+                id="copy-icon-default"
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+              </svg>
+              <svg
+                id="copy-icon-success"
+                class="hidden h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span id="copy-email-label">{t.hireMe.copyEmailButton}</span>
+            </button>
+
+            <!-- Direct Mailto Link -->
+            <a
+              href="mailto:kisharadilshan007@gmail.com?subject=Freelance%20Project%20Inquiry%20via%20FlipVideo"
+              class="inline-flex min-h-[52px] items-center gap-2 rounded-2xl border border-border-token bg-card px-5 py-3 text-sm font-bold text-text-primary transition hover:bg-subtle"
+            >
+              <span>{t.hireMe.sendEmailButton}</span>
+            </a>
+
+            <!-- Support on Gumroad -->
+            <a
+              href="https://kisharadilshan.gumroad.com/coffee"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex min-h-[52px] items-center gap-2 rounded-2xl border border-border-token bg-card px-5 py-3 text-sm font-bold text-text-primary transition hover:bg-subtle"
+            >
+              <span>{t.hireMe.supportCoffeeButton}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Core Engineering Capabilities -->
+    <section
+      aria-labelledby="skills-heading"
+      class="mx-auto max-w-5xl px-4 pb-16 sm:px-6 lg:px-8"
+    >
+      <h2
+        id="skills-heading"
+        class="text-2xl font-extrabold tracking-tight text-text-primary"
+      >
+        {t.hireMe.skillsHeading}
+      </h2>
+
+      <div class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
+        {
+          t.hireMe.skills.map((skill) => (
+            <article class="rounded-2xl border border-border-token bg-card p-6 shadow-sm">
+              <h3 class="text-lg font-bold text-text-primary">{skill.title}</h3>
+              <p class="mt-2.5 text-sm leading-relaxed text-text-secondary">
+                {skill.description}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<script is:inline>
+  (function () {
+    const copyBtn = document.getElementById('copy-email-btn');
+    const copyLabel = document.getElementById('copy-email-label');
+    const iconDefault = document.getElementById('copy-icon-default');
+    const iconSuccess = document.getElementById('copy-icon-success');
+
+    if (copyBtn && copyLabel) {
+      copyBtn.addEventListener('click', async () => {
+        const email =
+          copyBtn.getAttribute('data-email') || 'kisharadilshan007@gmail.com';
+        const defaultText =
+          copyBtn.getAttribute('data-default-label') || 'Copy Email';
+        const copiedText =
+          copyBtn.getAttribute('data-copied-label') || 'Copied to Clipboard!';
+
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(email);
+          } else {
+            const tempInput = document.createElement('input');
+            tempInput.value = email;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+          }
+
+          copyLabel.textContent = copiedText;
+          if (iconDefault && iconSuccess) {
+            iconDefault.classList.add('hidden');
+            iconSuccess.classList.remove('hidden');
+          }
+
+          setTimeout(() => {
+            copyLabel.textContent = defaultText;
+            if (iconDefault && iconSuccess) {
+              iconDefault.classList.remove('hidden');
+              iconSuccess.classList.add('hidden');
+            }
+          }, 2600);
+        } catch (_) {}
+      });
+    }
+  })();
+</script>

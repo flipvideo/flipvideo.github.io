@@ -1,0 +1,84 @@
+---
+import {
+  getTranslation,
+  getLocalizedPath,
+  getCanonicalUrl,
+  type Locale,
+} from '../i18n/translations';
+
+interface Props {
+  locale: Locale;
+  currentRoute: 'how-to-use/' | 'hire-me/';
+  currentLabel: string;
+}
+
+const { locale, currentRoute, currentLabel } = Astro.props;
+const t = getTranslation(locale);
+
+const homePath = getLocalizedPath(locale, '');
+const homeUrl = getCanonicalUrl(locale, '');
+const currentUrl = getCanonicalUrl(locale, currentRoute);
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: t.nav.home,
+      item: homeUrl,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: currentLabel,
+      item: currentUrl,
+    },
+  ],
+};
+---
+
+<nav
+  aria-label="Breadcrumb"
+  class="mx-auto w-full max-w-5xl px-4 pt-6 sm:px-6 lg:px-8"
+>
+  <ol class="flex flex-wrap items-center gap-2 text-sm font-medium text-text-secondary">
+    <li class="flex items-center">
+      <a
+        href={homePath}
+        class="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-text-secondary transition hover:bg-subtle hover:text-text-primary"
+      >
+        <svg
+          class="h-4 w-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+        <span>{t.nav.home}</span>
+      </a>
+    </li>
+    <li aria-hidden="true" class="text-text-secondary/60">
+      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6" />
+      </svg>
+    </li>
+    <li>
+      <span
+        aria-current="page"
+        class="rounded-lg bg-subtle/70 px-2.5 py-1 font-semibold text-text-primary"
+      >
+        {currentLabel}
+      </span>
+    </li>
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
